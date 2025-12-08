@@ -1,0 +1,36 @@
+networks:
+  proxy:
+    name: backbone_proxy
+    external: true
+  database:
+    name: backbone_database
+    external: true
+
+services:
+  plantuml:
+    image: jbtronics/part-db1:v2.3.0
+    container_name: partdb
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.partdb.tls=true
+      - traefik.http.routers.partdb.tls.certresolver=${CERTRESOLVER:-}
+      - traefik.http.routers.partdb.rule=Host("${APPLICATION_FQDN}")
+      - traefik.http.routers.partdb.service=partdb-service
+      - traefik.http.services.partdb-service.loadbalancer.server.port=8080
+    environment:
+      TZ: Europe/Berlin
+      DATABASE_URL: sqlite:///%kernel.project_dir%/var/db/app.db
+      APP_ENV: docker
+      DEFAULT_LANG: en
+      DEFAULT_TIMEZONE: Europe/Berlin
+      BASE_CURENCY: EUR
+      INSTANCE_NAME: Mainfranken Racing Part Management
+      USE_GRAVATAR: True
+      TRUSTED_PROXIES: 172.16.0.0/12
+    volumes:
+      - ./uploads:/var/www/html/uploads
+      - ./public_media:/var/www/html/public/media
+      - ./db:/var/www/html/var/db
+    networks:
+      - proxy
