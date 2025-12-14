@@ -20,17 +20,19 @@ services:
       - traefik.http.services.partdb-service.loadbalancer.server.port=80
     environment:
       TZ: Europe/Berlin
-      DATABASE_URL: sqlite:///%kernel.project_dir%/var/db/app.db
+      DATABASE_URL: mysql://${DB_USER:-partdb}:${DB_PASSWD:?error}@mariadb:3306/partdb
+      DB_AUTOMIGRATE: true
       APP_ENV: docker
       DEFAULT_LANG: en
       DEFAULT_TIMEZONE: Europe/Berlin
       BASE_CURENCY: EUR
-      INSTANCE_NAME: Mainfranken Racing Part Management
-      USE_GRAVATAR: True
+      INSTANCE_NAME: "${APPLICATION_NAME}"
+      USE_GRAVATAR: true
       TRUSTED_PROXIES: 172.16.0.0/12
     volumes:
-      - ./uploads:/var/www/html/uploads
-      - ./public_media:/var/www/html/public/media
-      - ./db:/var/www/html/var/db
+      - ./partdb/uploads:/var/www/html/uploads
+      - ./partdb/public_media:/var/www/html/public/media
+      - ./partdb/db:/var/www/html/var/db
     networks:
+      - database
       - proxy
