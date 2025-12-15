@@ -7,7 +7,7 @@ networks:
     external: true
 
 services:
-  plantuml:
+  partdb:
     image: jbtronics/part-db1:v2.3.0
     container_name: partdb
     restart: unless-stopped
@@ -32,7 +32,6 @@ services:
     volumes:
       - ./partdb/uploads:/var/www/html/uploads
       - ./partdb/public_media:/var/www/html/public/media
-      - ./partdb/db:/var/www/html/var/db
     networks:
       - database
       - proxy
