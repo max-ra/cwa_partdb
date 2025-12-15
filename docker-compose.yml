@@ -15,6 +15,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.partdb.tls=true
       - traefik.http.routers.partdb.tls.certresolver=${CERTRESOLVER:-}
+      - traefik.http.routers.partdb.entryPoints=https
       - traefik.http.routers.partdb.rule=Host("${APPLICATION_FQDN}")
       - traefik.http.routers.partdb.service=partdb-service
       - traefik.http.services.partdb-service.loadbalancer.server.port=80
