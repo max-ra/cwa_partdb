@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "gitea>Rauch-IT/renovate-config"
+    "local>Rauch-IT/renovate-config"
   ]
 }
