@@ -8,7 +8,7 @@ networks:
 
 services:
   partdb:
-    image: jbtronics/part-db1:v2.12.0
+    image: jbtronics/part-db1:v2.12.3
     container_name: partdb
     restart: unless-stopped
     labels:
